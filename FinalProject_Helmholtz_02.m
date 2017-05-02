@@ -33,3 +33,9 @@ dudy = 0;
 
 % figure 
 % plot(x,uay,y,uax,y,ubx)
+
+u = zeros(N,N);
+u(1,:) = uay;
+u(:,1) = uax;
+u(:,N) = ubx;
+
