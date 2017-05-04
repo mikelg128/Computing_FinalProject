@@ -8,16 +8,17 @@ ex=0;
 e = 1;
 w = 1; %Relaxation variable
 iter = 1;
-in = 1;git 
+in = 1;
 n = 5;
 iterations = zeros(1,n);
 err = zeros(1,n);
-targeterror = 10^-15;
+targeterror = 10^-4;
 
-tic
+elapsed=0;
 N = 2
 in2=1;
-while(N <= 10^n)
+while(N <= 2^12)
+    tic
     e=1;
     x = linspace(ax,bx,N+2);
     y = linspace(ay,by,N+2);
@@ -45,13 +46,13 @@ while(N <= 10^n)
         uprev = u;
        
         if iter == 10^in
-            e
-            toc
+            
+            
             iterations(in) = 10^in;
             err(in) = e;
             in = in + 1
 
-            tic
+            
         end
         for j = 2:N+1
             for i = 2:1:N+1
@@ -69,6 +70,7 @@ while(N <= 10^n)
 %         ylabel('Y Axis')
 %         zlabel('u(x,y)')
     end
+    e
     [e1, I] = max(abs(uexact - u));
     [e_abs_Linf, J] = max(e1); %L infinity abs error
     e_abs_L1 = (1/(N^3))*sum(sum(abs(uexact-u)));
@@ -78,7 +80,7 @@ while(N <= 10^n)
     e_abs_array_L2(in2) = e_abs_L2;
     Narray(in2)=N;
     harray(in2)=h;
-    in2 = in2+1;
+    
     if N == 64
         figure
         mesh(X,Y,u)
@@ -86,10 +88,14 @@ while(N <= 10^n)
         xlabel('X-Axis')
         ylabel('Y-Axis')
         text(X(I(J),J),Y(I(J),J),u(I(J),J),'\leftarrow Max Error Here')
-        N=N*2
+        
     end
+    N=N*2
+    elapsed = toc
+    time(in2) = elapsed;
+    in2 = in2+1;
 end
-toc
+
 figure
 semilogx(Narray,e_abs_array_Linf,Narray,e_abs_array_L1,Narray,e_abs_array_L2);
 title('Grid Convergence Analysis')
@@ -102,4 +108,9 @@ title('Grid Convergence Analysis')
 legend('L Infinity Absolute Error','L1 Absolute Error','L2 Absolute Error')
 xlabel('Step Size');
 ylabel('Absolute Error');
+figure
+loglog(time, Narray)
+title('Time to compute')
+xlabel('Time in Seconds')
+ylabel('Number of axis points')
 
