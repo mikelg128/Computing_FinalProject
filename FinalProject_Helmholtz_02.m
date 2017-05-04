@@ -65,7 +65,7 @@ while(e>=targeterror)
         for i = 2:1:N+1
             v(i,j) = delta*(G(i,j)*h^2+(v(i,j-1)+v(i-1,j)+v(i+1,j)+v(i,j+1)));
         end
-        v(i,j) = w*v(i,j) + (1-w)*vprev(i,j);
+        %v(i,j) = w*v(i,j) + (1-w)*vprev(i,j);
     end
     iter = iter + 1;
     e = max(max(abs((vprev - v)./v)))*100;
