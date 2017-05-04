@@ -58,7 +58,7 @@ e = 1;
 w = 1.5; %Relaxation variable
 iter = 10;
 in = 0;
-n = 5;
+n = 9;
 iterations = zeros(1,n);
 err = zeros(1,n);
 tic
