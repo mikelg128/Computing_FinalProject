@@ -55,7 +55,8 @@ end
 %%
 %-----------------------Calculations for Solution--------------------------
 e = 1;
-iter = 1;
+w = 1.5; %Relaxation variable
+iter = 10;
 in = 0;
 n = 4;
 iterations = zeros(1,n);
@@ -66,32 +67,34 @@ while(iter<=10^n)
     du = ustart;
     in = in+1
     iterations(in) = iter;
-    %tic
+    tic
     while(cur<iter)
         
         uprev = u;
         %du = u;
-        tic
+        
         for j = 2:N+1
-            for i = 2:2:N+1
+            for i = 2:1:N+1
                 if i == N+1
                     u(i,j) = delta*(F(i,j)*h^2+(u(i,j-1)+2*u(i-1,j)+u(i,j+1)));
-                elseif i == N
-                    u(i,j) = delta*(F(i,j)*h^2+(u(i,j-1)+u(i-1,j)+u(i+1,j)+u(i,j+1)));
-                    k=i+1;
-                    u(k,j) = delta*(F(k,j)*h^2+(u(k,j-1)+2*u(k-1,j)+u(k,j+1)));
+%                 elseif i == N
+%                     u(i,j) = delta*(F(i,j)*h^2+(u(i,j-1)+u(i-1,j)+u(i+1,j)+u(i,j+1)));
+%                     k=i+1;
+%                     u(k,j) = delta*(F(k,j)*h^2+(u(k,j-1)+2*u(k-1,j)+u(k,j+1)));
                 else
                     u(i,j) = delta*(F(i,j)*h^2+(u(i,j-1)+u(i-1,j)+u(i+1,j)+u(i,j+1)));
-                    k=i+1;
-                    u(k,j) = delta*(F(k,j)*h^2+(u(k,j-1)+u(k-1,j)+u(k+1,j)+u(k,j+1)));
+                    
+%                     k=i+1;
+%                     u(k,j) = delta*(F(k,j)*h^2+(u(k,j-1)+u(k-1,j)+u(k+1,j)+u(k,j+1)));
                 end
+                u(i,j) = w*u(i,j) + (1-w)*uprev(i,j);
             end
             u(N+2,j) = u(N,j);
         end
-        toc
+        
         cur = cur+1;
     end
-    %toc
+    toc
     cur = 0;
     e = max(max(abs((uprev - u)./u)))*100;
     err(in) = e;
