@@ -9,11 +9,9 @@ e = 1;
 w = 1; %Relaxation variable
 iter = 1;
 in = 1;
-<<<<<<< HEAD
-n = 5;
-=======
+
 n = 2;
->>>>>>> 15752907e132242c9b515dd057ba5b2d839bf3c9
+
 iterations = zeros(1,n);
 err = zeros(1,n);
 targeterror = 10^-4;
@@ -21,7 +19,7 @@ targeterror = 10^-4;
 elapsed=0;
 N = 2
 in2=1;
-while(N <= 2^12)
+while(N <= 2^8)
     tic
     e=1;
     x = linspace(ax,bx,N+2);
@@ -45,35 +43,35 @@ while(N <= 2^12)
     if abs(1/delta) < 4
         error('Matrix is not diagonally dominant');
     end
-    while(e>=targeterror)
-
-        uprev = u;
-       
-        if iter == 10^in
-            
-            
-            iterations(in) = 10^in;
-            err(in) = e;
-            in = in + 1
-
-            
-        end
-        for j = 2:N+1
-            for i = 2:1:N+1
-                u(i,j) = -delta*(F(i,j)*h^2-(u(i,j-1)+u(i-1,j)+u(i+1,j)+u(i,j+1)));
-                %u(i,j) = w*u(i,j) + (1-w)*uprev(i,j);
-            end
-        end
-        iter = iter + 1;
-        e = max(max(abs((uprev - u)./u)))*100;
-%         figure 
-%         colormap('jet')
-%         surf(X,Y,u)
-%         title(strcat(num2str(iter),' Iterations, Relative Error = ', num2str(e),'%'))
-%         xlabel('X Axis')
-%         ylabel('Y Axis')
-%         zlabel('u(x,y)')
-    end
+%     while(e>=targeterror)
+% 
+%         uprev = u;
+%        
+%         if iter == 10^in
+%             
+%             
+%             iterations(in) = 10^in;
+%             err(in) = e;
+%             in = in + 1
+% 
+%             
+%         end
+%         for j = 2:N+1
+%             for i = 2:1:N+1
+%                 u(i,j) = -delta*(F(i,j)*h^2-(u(i,j-1)+u(i-1,j)+u(i+1,j)+u(i,j+1)));
+%                 %u(i,j) = w*u(i,j) + (1-w)*uprev(i,j);
+%             end
+%         end
+%         iter = iter + 1;
+%         e = max(max(abs((uprev - u)./u)))*100;
+% %         figure 
+% %         colormap('jet')
+% %         surf(X,Y,u)
+% %         title(strcat(num2str(iter),' Iterations, Relative Error = ', num2str(e),'%'))
+% %         xlabel('X Axis')
+% %         ylabel('Y Axis')
+% %         zlabel('u(x,y)')
+%     end
     e
     [e1, I] = max(abs(uexact - u));
     [e_abs_Linf, J] = max(e1); %L infinity abs error
@@ -113,7 +111,7 @@ legend('L Infinity Absolute Error','L1 Absolute Error','L2 Absolute Error')
 xlabel('Step Size');
 ylabel('Absolute Error');
 figure
-loglog(time, Narray)
+loglog(Narray, time)
 title('Time to compute')
 xlabel('Time in Seconds')
 ylabel('Number of axis points')

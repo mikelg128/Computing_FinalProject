@@ -25,6 +25,11 @@ fb = y.*((by-y).^2);
 gb = ((by-y).^2).*cos(pi*y/by);
 F = sin(pi*((X-ax)/(bx-ax))).*cos((pi*0.5)*(2*(Y-ay)/(by-ay)+1));
 
+
+
+
+
+
 % figure 
 % colormap('jet')
 % surf(X,Y,F)
@@ -37,68 +42,21 @@ in = 1;
 n = 4;
 iterations = zeros(1,n);
 err = zeros(1,n);
-targeterror = 10^-15;
+targeterror = 10^-5;
 
-%%
-%--------------------Method of Manufactured Solutions----------------------
-v = zeros(N+2,N+2);
-vprev = v;
-vexact = v;
-v(1,:) = 0;
-v(N+2,:) = (by^2)*x.^2; 
-v(:,1) = 0;
-v(:,N+2) = (bx^2)*y.^2;
-G = 2*(X.^2 + Y.^2) + Lambda*(X.^2).*(Y.^2);
-vexact = (X.^2).*(Y.^2);
-tic
-while(e>=targeterror)
-    vprev = v;
-    if iter == 10^in
-        e
-        toc
-        iterations(in) = 10^in;
-        err(in) = e;
-        in = in + 1
-        tic
-    end
-    for j = 2:N+1
-        for i = 2:1:N+1
-            v(i,j) = delta*(G(i,j)*h^2+(v(i,j-1)+v(i-1,j)+v(i+1,j)+v(i,j+1)));
-        end
-        %v(i,j) = w*v(i,j) + (1-w)*vprev(i,j);
-    end
-    iter = iter + 1;
-    e = max(max(abs((vprev - v)./v)))*100;
-end
-e_abs = max(max(abs(vexact - v)))
-figure 
-colormap('jet')
-mesh(X,Y,G)
-title('Forcing Function G');
-xlabel('X Axis')
-ylabel('Y Axis')
-figure
-colormap(jet);
-mesh(X,Y,vexact);
-title('Exact Solution for v(x,y)');
-xlabel('X Axis')
-ylabel('Y Axis')
-figure 
-colormap('jet')
-mesh(X,Y,v)
-title(strcat(num2str(iter),' Iterations, Relative Error = ', num2str(e),'%'))
-xlabel('X Axis')
-ylabel('Y Axis')
-zlabel('u(x,y)')
-
-u=v;
-clear v vexact G vprev
 %%
 %-----------------------Boundary Conditions--------------------------------
-% uax = fb;
-% ubx = gb;
-% uay = fb(1) + ((x-ax)/bx-ax).*(gb(1)-fb(1));
-% dudy = 0;
+uax = fb;
+ubx = gb;
+uay = fb(1) + ((x-ax)/bx-ax).*(gb(1)-fb(1));
+dudy = 0;
+nflag = 'N';
+eflag = 'D';
+sflag = 'D';
+wflag = 'D';
+
+[ u, e, iter, h ] = HelmholtzSolver( Lambda, N, h, targeterror, F, dudy, nflag, ubx, eflag, uay, sflag, uax, wflag, w );
+
 % 
 % % figure 
 % % plot(x,uay,y,uax,y,ubx)
@@ -165,13 +123,13 @@ clear v vexact G vprev
 % toc
 % iter
 %%
-% figure 
-% colormap('jet')
-% surf(X,Y,v)
-% title(strcat(num2str(iter),' Iterations, Relative Error = ', num2str(e),'%'))
-% xlabel('X Axis')
-% ylabel('Y Axis')
-% zlabel('u(x,y)')
+figure 
+colormap('jet')
+surf(X,Y,u)
+title(strcat(num2str(iter),' Iterations, Relative Error = ', num2str(e),'%'))
+xlabel('X Axis')
+ylabel('Y Axis')
+zlabel('u(x,y)')
 %%
 %---------------------------Error Analysis---------------------------------
 
@@ -227,12 +185,12 @@ clear v vexact G vprev
 
 
 
-figure
-semilogx(iterations, err)
-title('Relative Error vs. Number of Iterations')
-xlabel('Iterations')
-ylabel('% Relative Error')
-axis([10,max(iterations),-100,max(err)])
+% figure
+% semilogx(iterations, err)
+% title('Relative Error vs. Number of Iterations')
+% xlabel('Iterations')
+% ylabel('% Relative Error')
+% axis([10,max(iterations),-100,max(err)])
 
 
 
