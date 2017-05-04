@@ -55,10 +55,9 @@ end
 %%
 %-----------------------Calculations for Solution--------------------------
 e = 1;
-w = 1.5; %Relaxation variable
 iter = 10;
 in = 0;
-n = 5;
+n = 6;
 iterations = zeros(1,n);
 err = zeros(1,n);
 tic
@@ -83,11 +82,10 @@ while(iter<=10^n)
 %                     u(k,j) = delta*(F(k,j)*h^2+(u(k,j-1)+2*u(k-1,j)+u(k,j+1)));
                 else
                     u(i,j) = delta*(F(i,j)*h^2+(u(i,j-1)+u(i-1,j)+u(i+1,j)+u(i,j+1)));
-                    
+                    u(i,j) = w*uprev(i,j) (1-
 %                     k=i+1;
 %                     u(k,j) = delta*(F(k,j)*h^2+(u(k,j-1)+u(k-1,j)+u(k+1,j)+u(k,j+1)));
                 end
-                u(i,j) = w*u(i,j) + (1-w)*uprev(i,j);
             end
             u(N+2,j) = u(N,j);
         end
