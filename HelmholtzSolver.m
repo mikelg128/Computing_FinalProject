@@ -1,4 +1,4 @@
-function [ u, e, iter, h ] = HelmholtzSolver( Lambda, N, h, etarget, F, nbc, nflag, ebc, eflag, sbc, sflag, wbc, wflag, w )
+function [ u, e, iter ] = HelmholtzSolver( Lambda, N, h, etarget, F, nbc, nflag, ebc, eflag, sbc, sflag, wbc, wflag, w )
 %HelmholtzSolver takes in a forcing function, boundary conditions, and
 %other parameters needed to solve the 2-Dimensional Helmholtz Equation:
 %Laplacian(u) - Lambda*u = F

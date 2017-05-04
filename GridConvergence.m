@@ -43,35 +43,7 @@ while(N <= 2^8)
     if abs(1/delta) < 4
         error('Matrix is not diagonally dominant');
     end
-%     while(e>=targeterror)
-% 
-%         uprev = u;
-%        
-%         if iter == 10^in
-%             
-%             
-%             iterations(in) = 10^in;
-%             err(in) = e;
-%             in = in + 1
-% 
-%             
-%         end
-%         for j = 2:N+1
-%             for i = 2:1:N+1
-%                 u(i,j) = -delta*(F(i,j)*h^2-(u(i,j-1)+u(i-1,j)+u(i+1,j)+u(i,j+1)));
-%                 %u(i,j) = w*u(i,j) + (1-w)*uprev(i,j);
-%             end
-%         end
-%         iter = iter + 1;
-%         e = max(max(abs((uprev - u)./u)))*100;
-% %         figure 
-% %         colormap('jet')
-% %         surf(X,Y,u)
-% %         title(strcat(num2str(iter),' Iterations, Relative Error = ', num2str(e),'%'))
-% %         xlabel('X Axis')
-% %         ylabel('Y Axis')
-% %         zlabel('u(x,y)')
-%     end
+
     e
     [e1, I] = max(abs(uexact - u));
     [e_abs_Linf, J] = max(e1); %L infinity abs error
