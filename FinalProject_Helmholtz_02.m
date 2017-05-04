@@ -64,48 +64,131 @@ end
 %%
 %-----------------------Calculations for Solution--------------------------
 e = 1;
-w = 1; %Relaxation variable
+w = 1.5; %Relaxation variable
 iter = 1;
 in = 1;
 n = 3;
 iterations = zeros(1,n);
 err = zeros(1,n);
-targeterror = 0;
-%-----------------------Targeted Error Calculation-------------------------
-
+targeterror = 10^-10;
+%%
+%------------------------Grid Independance Study---------------------------
 tic
-while(e>=targeterror)
-    
-    uprev = u;
-    %du = u;
-    if iter == 10^in
-        iterations(in) = 10^in;
-        err(in) = e;
-        in = in + 1;
-    end
-    for j = 2:N+1
-        for i = 2:1:N+1
-            if i == N+1
-                u(i,j) = delta*(F(i,j)*h^2+(u(i,j-1)+2*u(i-1,j)+u(i,j+1)));
-%                 elseif i == N
-%                     u(i,j) = delta*(F(i,j)*h^2+(u(i,j-1)+u(i-1,j)+u(i+1,j)+u(i,j+1)));
-%                     k=i+1;
-%                     u(k,j) = delta*(F(k,j)*h^2+(u(k,j-1)+2*u(k-1,j)+u(k,j+1)));
-            else
-                u(i,j) = delta*(F(i,j)*h^2+(u(i,j-1)+u(i-1,j)+u(i+1,j)+u(i,j+1)));
+N = 10
+while(N <= 10^n)
+    x = linspace(ax,bx,N+2);
+    y = linspace(ay,by,M+2);
+    % x = ax:delx:bx;
+    % y = ay:dely:by;
 
-%                     k=i+1;
-%                     u(k,j) = delta*(F(k,j)*h^2+(u(k,j-1)+u(k-1,j)+u(k+1,j)+u(k,j+1)));
-            end
-            u(i,j) = w*u(i,j) + (1-w)*uprev(i,j);
-        end
-        u(N+2,j) = u(N,j);
+    delx = x(2)-x(1); dely = y(2)-y(1);
+    delX = 1/(delx^2); delY = 1/(dely^2);
+    h = delx;
+
+    [X,Y] = meshgrid(x,y);
+
+    fb = y.*((by-y).^2);
+    gb = ((by-y).^2).*cos(pi*y/by);
+    F = sin(pi*((X-ax)/(bx-ax))).*cos((pi*0.5)*(2*(Y-ay)/(by-ay)+1));
+    uax = fb;
+    ubx = gb;
+    uay = fb(1) + ((x-ax)/bx-ax).*(gb(1)-fb(1));
+    dudy = 0;
+
+    u = zeros(N+2,N+2);
+    uprev = u;
+
+    u(1,:) = uay;
+    %u(N+2,:) -> Neumann Boundary Condition
+    u(N+2,1) = u(N,1);
+    u(N+2,N+2) = u(N,N+2);
+    u(:,1) = uax;
+    u(:,N+2) = ubx;
+    delta = 1/(Lambda*h^2 + 4);
+    ustart = u;
+    du = u;
+    if abs(1/delta) < 4
+        error('Matrix is not diagonally dominant');
     end
-    iter = iter + 1;
-    e = max(max(abs((uprev - u)./u)))*100;
+    while(e>=targeterror)
+
+        uprev = u;
+        %du = u;
+        if iter == 10^in
+            e
+            toc
+            iterations(in) = 10^in;
+            err(in) = e;
+            in = in + 1
+
+            tic
+        end
+        for j = 2:N+1
+            for i = 2:1:N+1
+                if i == N+1
+                    u(i,j) = delta*(F(i,j)*h^2+(u(i,j-1)+2*u(i-1,j)+u(i,j+1)));
+    %                 elseif i == N
+    %                     u(i,j) = delta*(F(i,j)*h^2+(u(i,j-1)+u(i-1,j)+u(i+1,j)+u(i,j+1)));
+    %                     k=i+1;
+    %                     u(k,j) = delta*(F(k,j)*h^2+(u(k,j-1)+2*u(k-1,j)+u(k,j+1)));
+                else
+                    u(i,j) = delta*(F(i,j)*h^2+(u(i,j-1)+u(i-1,j)+u(i+1,j)+u(i,j+1)));
+
+    %                     k=i+1;
+    %                     u(k,j) = delta*(F(k,j)*h^2+(u(k,j-1)+u(k-1,j)+u(k+1,j)+u(k,j+1)));
+                end
+                u(i,j) = w*u(i,j) + (1-w)*uprev(i,j);
+            end
+            u(N+2,j) = u(N,j);
+        end
+        iter = iter + 1;
+        e = max(max(abs((uprev - u)./u)))*100;
+    end
+    N=N*10;
 end
 toc
-iter
+
+%%
+%-----------------------Targeted Error Calculation-------------------------
+
+% tic
+% while(e>=targeterror)
+%    
+%     uprev = u;
+%     %du = u;
+%     if iter == 10^in
+%         e
+%         toc
+%         iterations(in) = 10^in;
+%         err(in) = e;
+%         in = in + 1
+%         
+%         tic
+%     end
+%     for j = 2:N+1
+%         for i = 2:1:N+1
+%             if i == N+1
+%                 u(i,j) = delta*(F(i,j)*h^2+(u(i,j-1)+2*u(i-1,j)+u(i,j+1)));
+% %                 elseif i == N
+% %                     u(i,j) = delta*(F(i,j)*h^2+(u(i,j-1)+u(i-1,j)+u(i+1,j)+u(i,j+1)));
+% %                     k=i+1;
+% %                     u(k,j) = delta*(F(k,j)*h^2+(u(k,j-1)+2*u(k-1,j)+u(k,j+1)));
+%             else
+%                 u(i,j) = delta*(F(i,j)*h^2+(u(i,j-1)+u(i-1,j)+u(i+1,j)+u(i,j+1)));
+% 
+% %                     k=i+1;
+% %                     u(k,j) = delta*(F(k,j)*h^2+(u(k,j-1)+u(k-1,j)+u(k+1,j)+u(k,j+1)));
+%             end
+%             u(i,j) = w*u(i,j) + (1-w)*uprev(i,j);
+%         end
+%         u(N+2,j) = u(N,j);
+%     end
+%     iter = iter + 1;
+%     e = max(max(abs((uprev - u)./u)))*100;
+% end
+% toc
+% iter
+%%
 figure 
 colormap('jet')
 surf(X,Y,u)
