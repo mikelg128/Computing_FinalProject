@@ -9,7 +9,7 @@ e = 1;
 w = 1; %Relaxation variable
 iter = 1;
 in = 1;git 
-n = 2;
+n = 5;
 iterations = zeros(1,n);
 err = zeros(1,n);
 targeterror = 10^-15;
@@ -79,14 +79,15 @@ while(N <= 10^n)
     Narray(in2)=N;
     harray(in2)=h;
     in2 = in2+1;
-    
-    figure
-    mesh(X,Y,u)
-    title(strcat(num2str(N),' Axis Points, Absolute Error = ', num2str(e_abs_Linf)))
-    xlabel('X-Axis')
-    ylabel('Y-Axis')
-    text(X(I(J),J),Y(I(J),J),u(I(J),J),'\leftarrow Max Error Here')
-    N=N*2
+    if N == 64
+        figure
+        mesh(X,Y,u)
+        title(strcat(num2str(N),' Axis Points, Absolute Error = ', num2str(e_abs_Linf)))
+        xlabel('X-Axis')
+        ylabel('Y-Axis')
+        text(X(I(J),J),Y(I(J),J),u(I(J),J),'\leftarrow Max Error Here')
+        N=N*2
+    end
 end
 toc
 figure
