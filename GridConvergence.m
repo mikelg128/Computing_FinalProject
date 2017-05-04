@@ -8,7 +8,7 @@ ex=0;
 e = 1;
 w = 1; %Relaxation variable
 iter = 1;
-in = 1;git 
+in = 1;
 n = 2;
 iterations = zeros(1,n);
 err = zeros(1,n);
@@ -29,12 +29,12 @@ while(N <= 10^n)
     [X,Y] = meshgrid(x,y);
     u = zeros(N+2,N+2);
     uprev = u;
-
+    uexact = u;
     u(1,:) = 0;
     u(N+2,:) = (by^2)*x.^2; 
     u(:,1) = 0;
     u(:,N+2) = (bx^2)*y.^2;
-    F = 2*(X.^2 + Y.^2) + Lambda*(X.^2).*(Y.^2);
+    F = 2*(X.^2 + Y.^2) - Lambda*(X.^2).*(Y.^2);
     uexact = (X.^2).*(Y.^2);
     
     if abs(1/delta) < 4
@@ -55,7 +55,7 @@ while(N <= 10^n)
         end
         for j = 2:N+1
             for i = 2:1:N+1
-                u(i,j) = delta*(F(i,j)*h^2+(u(i,j-1)+u(i-1,j)+u(i+1,j)+u(i,j+1)));
+                u(i,j) = -delta*(F(i,j)*h^2-(u(i,j-1)+u(i-1,j)+u(i+1,j)+u(i,j+1)));
                 %u(i,j) = w*u(i,j) + (1-w)*uprev(i,j);
             end
         end
