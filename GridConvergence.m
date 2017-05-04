@@ -8,7 +8,7 @@ ex=0;
 e = 1;
 w = 1; %Relaxation variable
 iter = 1;
-in = 1;
+in = 1;git 
 n = 2;
 iterations = zeros(1,n);
 err = zeros(1,n);
@@ -85,7 +85,7 @@ while(N <= 10^n)
     title(strcat(num2str(N),' Axis Points, Absolute Error = ', num2str(e_abs_Linf)))
     xlabel('X-Axis')
     ylabel('Y-Axis')
-    text(X(I,J),Y(I,J),u(I,J),'\leftarrow Max Error Here')
+    text(X(I(J),J),Y(I(J),J),u(I(J),J),'\leftarrow Max Error Here')
     N=N*2
 end
 toc
