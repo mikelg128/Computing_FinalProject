@@ -53,6 +53,15 @@ if abs(1/delta) < 4
     error('Matrix is not diagonally dominant');
 end
 %%
+%--------------------Method of Manufactured Solutions----------------------
+
+
+
+
+
+
+
+%%
 %-----------------------Calculations for Solution--------------------------
 e = 1;
 w = 1; %Relaxation variable
