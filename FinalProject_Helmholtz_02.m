@@ -55,21 +55,25 @@ end
 %%
 %-----------------------Calculations for Solution--------------------------
 e = 1;
-w = 1.5; %Relaxation variable
-iter = 10;
-in = 0;
-n = 9;
+w = 1; %Relaxation variable
+iter = 1;
+in = 1;
+n = 3;
 iterations = zeros(1,n);
 err = zeros(1,n);
-targeterror = 10^-12;
+targeterror = 0;
 %-----------------------Targeted Error Calculation-------------------------
 
 tic
 while(e>=targeterror)
-
+    
     uprev = u;
     %du = u;
-
+    if iter == 10^in
+        iterations(in) = 10^in;
+        err(in) = e;
+        in = in + 1;
+    end
     for j = 2:N+1
         for i = 2:1:N+1
             if i == N+1
@@ -155,12 +159,12 @@ zlabel('u(x,y)')
 
 
 
-% figure
-% semilogx(iterations, err)
-% title('Relative Error vs. Number of Iterations')
-% xlabel('Iterations')
-% ylabel('% Relative Error')
-% axis([10,max(iterations),-1000,max(err)])
+figure
+semilogx(iterations, err)
+title('Relative Error vs. Number of Iterations')
+xlabel('Iterations')
+ylabel('% Relative Error')
+axis([10,max(iterations),-100,max(err)])
 
 
 
