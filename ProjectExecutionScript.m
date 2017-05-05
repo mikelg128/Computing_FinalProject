@@ -156,11 +156,9 @@ end
 %Convergence Plots
 figure
 semilogx(Narray1,e_abs_array_Linf_1,Narray1,e_abs_array_L1_1,Narray1,e_abs_array_L2_1);
-<<<<<<< HEAD
-title('Grid Convergence Analysis for v1(x,y)')
-=======
+
 title(strcat('Grid Convergence Analysis for v1(x,y), Target Error: ', num2str(targeterror)))
->>>>>>> error_analysis
+
 legend('L Infinity Absolute Error','L1 Absolute Error','L2 Absolute Error')
 xlabel('Number of axis points');
 ylabel('Absolute Error');
@@ -172,11 +170,8 @@ ylabel('Number of axis points')
 
 figure
 semilogx(Narray1,e_abs_array_Linf_2,Narray1,e_abs_array_L1_2,Narray1,e_abs_array_L2_2);
-<<<<<<< HEAD
 title('Grid Convergence Analysis for v2(x,y)')
-=======
 title(strcat('Grid Convergence Analysis for v2(x,y), Target Error: ', num2str(targeterror)))
->>>>>>> error_analysis
 legend('L Infinity Absolute Error','L1 Absolute Error','L2 Absolute Error')
 xlabel('Number of axis points');
 ylabel('Absolute Error');
