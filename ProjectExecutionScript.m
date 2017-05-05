@@ -12,7 +12,7 @@ delx = x(2)-x(1);
 h = delx;
 [X,Y] = meshgrid(x,y);
 w = 1; %Relaxation variable
-targeterror = 10^-5;
+targeterror = 10^-10;
 
 %First Manufactured Solution
 %Boundary conditions + exact sol for manufactured problem
@@ -26,8 +26,9 @@ eflag = 'D';
 wflag = 'D';
 F = 2*(X.^2 + Y.^2) - Lambda*(X.^2).*(Y.^2);
 v1exact = (X.^2).*(Y.^2);
+tic
 [ v1, e1, v1iter ] = HelmholtzSolver( Lambda, N, h, targeterror, F, nbc, nflag, ebc, eflag, sbc, sflag, wbc, wflag, w );
-
+v1time = toc
 %Plot Manufactured sol
 figure 
 colormap('jet')
@@ -39,7 +40,7 @@ zlabel('v1(x,y)')
 %Plot Exact solution of manufactured problem
 figure
 colormap(jet);
-surf(X,Y,vexact);
+surf(X,Y,v1exact);
 title('Exact Solution for v1(x,y)');
 xlabel('X Axis')
 ylabel('Y Axis')
@@ -56,8 +57,9 @@ eflag = 'D';
 wflag = 'D';
 F = -cos(X.*Y).*((X.^2) + (Y.^2)) - Lambda*cos(X.*Y);
 v2exact = cos(X.*Y);
+tic
 [ v2, e2, v2iter ] = HelmholtzSolver( Lambda, N, h, targeterror, F, nbc, nflag, ebc, eflag, sbc, sflag, wbc, wflag, w );
-
+v2time = toc
 %Plot Manufactured sol
 figure 
 colormap('jet')
@@ -93,8 +95,9 @@ sflag = 'D';
 wflag = 'D';
 
 %Call Solver
+tic
 [ u, e, iter ] = HelmholtzSolver( Lambda, N, h, targeterror, F, dudy, nflag, ubx, eflag, uay, sflag, uax, wflag, w );
-
+utime = toc
 
 %Plot
 figure 

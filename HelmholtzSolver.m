@@ -50,28 +50,35 @@ function [ u, e, iter ] = HelmholtzSolver( Lambda, N, h, etarget, F, nbc, nflag,
     elseif sflag == 'N'
         neus = -sbc*2*h;
     end
-    
+    F = delta*F;
    
     while(e>=etarget)
         uprev = u;
+        
         for j = 2:N+1
-            for i = 2:1:N+1
+            if eflag == 'N' && j == N+1
+                    u(:,j+1) = neue + u(:,j-1);
+            end
+            if wflag == 'N' && j == 2
+                    u(:,j-1) = neuw + u(:,j+1);
+            end
+            for i = 2:2:N+1
                 if nflag == 'N' && i == N+1
                     u(i+1,j) = neun + u(i-1,j);
-                end
-                if eflag == 'N' && j == N+1
-                    u(i,j+1) = neue + u(i,j-1);
-                end
+                end                
                 if sflag == 'N' && i == 2
                     u(i-1,j) = neus + u(i+1,j);
                 end
-                if wflag == 'N' && j == 2
-                    u(i,j-1) = neuw + u(i,j+1);
+                if i == N+1
+                    u(i,j) = delta*(u(i,j-1)+u(i-1,j)+u(i+1,j)+u(i,j+1))-(F(i,j)*h^2);
+                else
+                    u(i,j) = delta*(u(i,j-1)+u(i-1,j)+u(i+1,j)+u(i,j+1))-(F(i,j)*h^2);                    
+                    u(i+1,j) = delta*(u(i+1,j-1)+u(i,j)+u(i+2,j)+u(i+1,j+1))-(F(i+1,j)*h^2);
                 end
-                u(i,j) = -delta*(F(i,j)*h^2-(u(i,j-1)+u(i-1,j)+u(i+1,j)+u(i,j+1)));
                 %u(i,j) = w*u(i,j) + (1-w)*uprev(i,j);
             end
         end
+        
         iter = iter + 1;
         e = max(max(abs((uprev - u)./u)));
     end
