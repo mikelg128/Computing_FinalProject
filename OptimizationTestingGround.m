@@ -1,6 +1,6 @@
-N = 2; Nmax = 2;
+N = 100; Nmax = 2;
 
-parfor k = N:Nmax
+
 ax = 0; ay = 0;
 bx = 2*pi; by = 2*pi;
 Lambda = 0.5;
@@ -11,7 +11,7 @@ y = linspace(ay,by,N+2);
 delx = x(2)-x(1);  
 h = delx;
 [X,Y] = meshgrid(x,y);
-w = 1; %Relaxation variable
+w = 1.9; %Relaxation variable
 targeterror = 10^-5;
 
 
@@ -36,4 +36,4 @@ tic
 time = toc
 e 
 iter
-end
+
