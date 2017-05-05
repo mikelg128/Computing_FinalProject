@@ -4,8 +4,13 @@ ax = 0; ay = 0;
 bx = 2*pi; by = 2*pi;
 Lambda = 0.5;
 w = 1; %Relaxation variable
+<<<<<<< HEAD
 targeterror = 10^-4;
 k=5; Nmax = 50;
+=======
+targeterror = 10^-5;
+k=5; Nmax = 20;
+>>>>>>> error_analysis
 in = 1;
 f1=0;f2=0;f3=0;
 
@@ -151,7 +156,11 @@ end
 %Convergence Plots
 figure
 semilogx(Narray1,e_abs_array_Linf_1,Narray1,e_abs_array_L1_1,Narray1,e_abs_array_L2_1);
+<<<<<<< HEAD
 title('Grid Convergence Analysis for v1(x,y)')
+=======
+title(strcat('Grid Convergence Analysis for v1(x,y), Target Error: ', num2str(targeterror)))
+>>>>>>> error_analysis
 legend('L Infinity Absolute Error','L1 Absolute Error','L2 Absolute Error')
 xlabel('Number of axis points');
 ylabel('Absolute Error');
@@ -163,7 +172,11 @@ ylabel('Number of axis points')
 
 figure
 semilogx(Narray1,e_abs_array_Linf_2,Narray1,e_abs_array_L1_2,Narray1,e_abs_array_L2_2);
+<<<<<<< HEAD
 title('Grid Convergence Analysis for v2(x,y)')
+=======
+title(strcat('Grid Convergence Analysis for v2(x,y), Target Error: ', num2str(targeterror)))
+>>>>>>> error_analysis
 legend('L Infinity Absolute Error','L1 Absolute Error','L2 Absolute Error')
 xlabel('Number of axis points');
 ylabel('Absolute Error');
