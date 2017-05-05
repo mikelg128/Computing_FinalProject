@@ -1,16 +1,11 @@
-%clear all;
+clear all;
 clc;
 ax = 0; ay = 0;
 bx = 2*pi; by = 2*pi;
 Lambda = 0.5;
 w = 1; %Relaxation variable
-<<<<<<< HEAD
-targeterror = 10^-4;
-k=5; Nmax = 50;
-=======
 targeterror = 10^-5;
 k=5; Nmax = 20;
->>>>>>> error_analysis
 in = 1;
 f1=0;f2=0;f3=0;
 
