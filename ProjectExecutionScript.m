@@ -5,11 +5,11 @@ bx = 2*pi; by = 2*pi;
 Lambda = 0.5;
 w = 1; %Relaxation variable
 targeterror = 10^-2;
-k=1; Nmax = 100;
+k=10; Nmax = 150;
 in = 1;
 f1=0;f2=0;f3=0;
 
-for N = k:1:Nmax
+for N = k:10:Nmax
 tic
 
 x = linspace(ax,bx,N+2);
