@@ -4,12 +4,12 @@ ax = 0; ay = 0;
 bx = 2*pi; by = 2*pi;
 Lambda = 0.5;
 w = 1; %Relaxation variable
-targeterror = 10^-10;
-N=2; Nmax = 200;
+targeterror = 10^-4;
+k=5; Nmax = 50;
 in = 1;
 f1=0;f2=0;f3=0;
 
-while N<=Nmax
+for N = k:5:Nmax
 tic
 
 x = linspace(ax,bx,N+2);
@@ -55,7 +55,7 @@ if N >= 100 && f1 == 0
     title(strcat(num2str(v1iter),' Iterations, Relative Error = ', num2str(e1),'%'))
     xlabel('X Axis')
     ylabel('Y Axis')
-    zlabel('v1(x,y)')
+    zlabel(strcat('v1(x,y) at ',num2str(N),' Axis points'))
     %Plot Exact solution of manufactured problem
     figure
     colormap(jet);
@@ -100,7 +100,7 @@ if N >= 100 && f2 == 0
     title(strcat(num2str(v2iter),' Iterations, Relative Error = ', num2str(e2),'%'))
     xlabel('X Axis')
     ylabel('Y Axis')
-    zlabel('v2(x,y)')
+    zlabel(strcat('v2(x,y) at ',num2str(N),' Axis points'))
     %Plot Exact solution of manufactured problem
     figure
     colormap(jet);
@@ -143,7 +143,7 @@ if N >= 100 && f3 == 0
     ylabel('Y Axis')
     zlabel('u(x,y)')
 end
-N=N*2
+%N=N*2
 in = in+1;
 toc
 end

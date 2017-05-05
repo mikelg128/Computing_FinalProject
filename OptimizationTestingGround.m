@@ -1,8 +1,10 @@
+N = 2; Nmax = 2;
 
+parfor k = N:Nmax
 ax = 0; ay = 0;
 bx = 2*pi; by = 2*pi;
 Lambda = 0.5;
-N = 9;
+
 %in = 1;
 x = linspace(ax,bx,N+2);
 y = linspace(ay,by,N+2);
@@ -34,3 +36,4 @@ tic
 time = toc
 e 
 iter
+end
