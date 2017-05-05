@@ -1,9 +1,9 @@
-clear all
+
 ax = 0; ay = 0;
 bx = 2*pi; by = 2*pi;
 Lambda = 0.5;
-N = 100;
-
+N = 9;
+%in = 1;
 x = linspace(ax,bx,N+2);
 y = linspace(ay,by,N+2);
 delx = x(2)-x(1);  
